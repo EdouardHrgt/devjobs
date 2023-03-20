@@ -1,18 +1,38 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <HeaderBar />
+    <section class="searchbar"></section>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import HeaderBar from '@/components/Header.vue';
 
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld
+    HeaderBar,
+  },
+};
+</script>
+
+<style scoped>
+.searchbar {
+  max-width: 1110px;
+  margin: auto;
+  height: 80px;
+  background-color: lightcoral;
+  position: relative;
+  top: -40px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 1024px) {
+  .searchbar {
+    max-width: 90%;
   }
 }
-</script>
+</style>

@@ -1,9 +1,5 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
     <router-view />
   </div>
 </template>
@@ -12,7 +8,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
 :root {
   /* colors */
-  --clr-violet: hsl(27, 22%, 51%);
+  --clr-violet: #5964e0;
   --clr-light-violet: hsl(235, 82%, 77%);
   --clr-dark-blue: hsl(219, 29%, 14%);
   --clr-midnight: hsl(220, 29%, 10%);
@@ -38,4 +34,19 @@
   /* font family */
   --font: 'Kumbh Sans', sans-serif;
 }
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  border: none;
+  box-sizing: border-box;
+  font-family: var(--font);
+}
+
+#app {
+  max-width: 1440px;
+  margin: auto;
+}
+
 </style>
