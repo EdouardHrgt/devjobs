@@ -44,9 +44,13 @@
   font-family: var(--font);
 }
 
+body {
+  background-color: var(--clr-light-grey);
+}
+
 #app {
   max-width: 1440px;
   margin: auto;
+  min-height: 100vh;
 }
-
 </style>
