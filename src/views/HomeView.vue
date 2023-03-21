@@ -31,12 +31,14 @@
       <section class="grid">
         <a href="#" class="jobs" v-for="job in jobs" :key="job.id">
           <div class="logo" :style="{ background: job.logoBackground }">
-            <img :src="job.logo" :alt="job.position" />
+            <img src="../assets/logos/blogr.svg" :alt="job.position" />
           </div>
-          <p class="time"><span>5h ago . </span>{{ job.contract }}</p>
-          <h2></h2>
-          <p class="company">{{ job.company }}</p>
-          <p class="location"></p>
+          <div class="jobs-text">
+            <p class="time"><span>5h ago . </span>{{ job.contract }}</p>
+            <h2>{{ job.position }}</h2>
+            <p class="company">{{ job.company }}</p>
+            <p class="location">{{ job.location }}</p>
+          </div>
         </a>
       </section>
       <button>Load More</button>
@@ -46,7 +48,7 @@
 
 <script>
 import HeaderBar from '@/components/Header.vue';
-
+import DataList from '/data.json';
 export default {
   name: 'HomeView',
   components: {
@@ -54,21 +56,8 @@ export default {
   },
   data() {
     return {
-      jobs: null,
+      jobs: DataList,
     };
-  },
-  mounted() {
-    fetch('http://localhost:8080/data.json')
-      .then((res) => {
-        return res.json();
-      })
-      .then((dataList) => {
-        console.log(dataList);
-        this.jobs = dataList;
-      })
-      .catch((e) => {
-        console.warn(e);
-      });
   },
 };
 </script>
@@ -118,19 +107,60 @@ input::placeholder {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(auto, 1fr);
-  grid-column-gap: 1rem;
-  grid-row-gap: 1rem;
+  grid-column-gap: 2rem;
+  grid-row-gap: 4rem;
+  max-width: 1110px;
+  margin: auto;
 }
 
 .jobs {
-  border: 1px solid red;
-  border-radius: 7px;
+  border-radius: 5px;
   position: relative;
   transition: 0.3s;
+  padding: 2rem;
+  background-color: var(--clr-white);
 }
 
-.jobs:hover {
+.jobs:hover .jobs-text {
   opacity: 0.7;
+}
+
+.jobs .logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: calc(-2rem + -25px);
+}
+
+.jobs-text {
+  padding: 1rem 0;
+}
+
+.jobs h2 {
+  color: var(--clr-midnight);
+  font-size: var(--m-font);
+  line-height: var(--m-line);
+  padding: 0.5rem 0;
+}
+
+.time,
+.company {
+  color: var(--clr-grey);
+}
+
+.location {
+  color: var(--clr-violet);
+  padding-top: 2rem;
+  font-weight: bold;
+}
+
+.time,
+.company,
+.location {
+  font-size: var(--body-font);
 }
 
 button {
@@ -147,6 +177,17 @@ button {
 @media screen and (max-width: 1024px) {
   .searchbar {
     max-width: 90%;
+  }
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 90%;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .grid {
+    grid-template-columns: repeat(1, 1fr);
+    grid-row-gap: 3rem;
   }
 }
 </style>
