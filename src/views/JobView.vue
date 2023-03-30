@@ -2,21 +2,21 @@
   <div class="job">
     <HeaderBar />
     <section class="banner">
-      <div class="banner-img">
-        <p class="logo">Scoot</p>
+      <div class="banner-img" :style="{ background: job.logoBackground }">
+        <p class="logo">{{ job.company }}</p>
       </div>
       <div class="banner-txt">
-        <h1>Scoot</h1>
-        <p>scoot.com</p>
+        <h1>{{ job.company }}</h1>
+        <p>{{ job.website }}</p>
       </div>
       <button>Company Site</button>
     </section>
+    {{ job }}
   </div>
 </template>
 
 <script>
 import HeaderBar from '@/components/Header.vue';
-import DataList from '/data.json';
 export default {
   name: 'JobView',
   components: {
@@ -24,8 +24,12 @@ export default {
   },
   data() {
     return {
-      jobs: DataList,
+      job: null,
+      id: this.$route.params.id,
     };
+  },
+  mounted() {
+    this.job = this.$store.state.jobsList.find((x) => x.id == this.id);
   },
 };
 </script>

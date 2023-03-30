@@ -1,18 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
+import DataList from '/data.json';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    jobsList: null,
+    jobsList: DataList,
   },
-  getters: {},
-  mutations: {
-    UpdateJobsList(state, payload) {
-      state.jobsList.push(payload);
+  getters: {
+    fetchOneJob(state, id){
+      return state.jobsList.find(x => x.id == id);
     },
   },
-  actions: {},
-  modules: {},
 });

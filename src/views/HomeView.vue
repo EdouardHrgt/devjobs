@@ -32,7 +32,13 @@
     <!-- Main section -->
     <main>
       <section class="grid">
-        <a href="#" class="jobs" v-for="job in jobs" :key="job.id" @click="toJob(job.company)">
+        <a
+          href="#"
+          class="jobs"
+          v-for="job in myJobs"
+          :key="job.id"
+          @click="toJob(job.company, job.id)"
+        >
           <div class="logo" :style="{ background: job.logoBackground }">
             <img src="../assets/logos/blogr.svg" :alt="job.position" />
           </div>
@@ -51,7 +57,7 @@
 
 <script>
 import HeaderBar from '@/components/Header.vue';
-import DataList from '/data.json';
+//import DataList from '/data.json';
 export default {
   name: 'HomeView',
   components: {
@@ -59,7 +65,6 @@ export default {
   },
   data() {
     return {
-      jobs: DataList,
       texts: {
         label: 'FullTime Only',
         LargeLabel: 'FullTime Only',
@@ -67,6 +72,11 @@ export default {
       },
       timeout: null,
     };
+  },
+  computed: {
+    myJobs() {
+      return this.$store.state.jobsList;
+    },
   },
   created() {
     window.addEventListener('resize', this.debounce);
@@ -88,9 +98,10 @@ export default {
         this.texts.label = this.texts.LargeLabel;
       }
     },
-    toJob(job) {
-      const name = job;
-      this.$router.push(`job/${name}`);
+    toJob(company, jobId) {
+      const name = company;
+      const id = jobId;
+      this.$router.push(`job/${name}/${id}`);
     },
   },
 };

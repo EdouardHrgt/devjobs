@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header>
-      <h1>devjobs</h1>
+      <h1 @click="toHome">devjobs</h1>
       <div class="switcher" @click="switchTheme()">
         <img src="../assets/desktop/icon-sun.svg" alt="light theme" />
         <div class="switch">
@@ -27,6 +27,9 @@ export default {
       this.theme = !this.theme;
       this.theme ? (this.darkTheme = true) : (this.darkTheme = false);
     },
+    toHome() {
+      this.$router.push(`/`);
+    },
   },
 };
 </script>
@@ -44,6 +47,7 @@ header {
 h1 {
   color: var(--clr-white);
   font-size: var(--xl-font);
+  cursor: pointer;
 }
 
 .switcher {
