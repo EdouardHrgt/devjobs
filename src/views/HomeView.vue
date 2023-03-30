@@ -21,15 +21,18 @@
         <input type="text" name="location" id="location" placeholder="Filter by location..." />
       </div>
       <div class="form-group last-group">
-        <label for="fulltime">Full Time Only</label>
-        <input type="checkbox" name="fulltime" id="fulltime" />
+        <div class="last-group-checkbox">
+          <label for="fulltime" class="last-group-label">{{ texts.label }}</label>
+          <input type="checkbox" name="fulltime" id="fulltime" />
+        </div>
+
         <input type="submit" value="Search" class="submit-btn" />
       </div>
     </form>
     <!-- Main section -->
     <main>
       <section class="grid">
-        <a href="#" class="jobs" v-for="job in jobs" :key="job.id">
+        <a href="#" class="jobs" v-for="job in jobs" :key="job.id" @click="toJob(job.company)">
           <div class="logo" :style="{ background: job.logoBackground }">
             <img src="../assets/logos/blogr.svg" :alt="job.position" />
           </div>
@@ -57,14 +60,45 @@ export default {
   data() {
     return {
       jobs: DataList,
+      texts: {
+        label: 'FullTime Only',
+        LargeLabel: 'FullTime Only',
+        SmallLabel: 'FullTime',
+      },
+      timeout: null,
     };
+  },
+  created() {
+    window.addEventListener('resize', this.debounce);
+  },
+  destroyed() {
+    window.removeEventListener('resize', this.debounce);
+  },
+  methods: {
+    debounce() {
+      if (this.timeout) clearTimeout(this.timeout);
+      this.timeout = setTimeout(() => {
+        this.ChangeText();
+      }, 100);
+    },
+    ChangeText() {
+      if (window.innerWidth <= 1024) {
+        this.texts.label = this.texts.SmallLabel;
+      } else {
+        this.texts.label = this.texts.LargeLabel;
+      }
+    },
+    toJob(job) {
+      const name = job;
+      this.$router.push(`job/${name}`);
+    },
   },
 };
 </script>
 
 <style scoped>
 .searchbar {
-  max-width: 1110px;
+  max-width: var(--bar-width);
   margin: auto;
   height: 80px;
   position: relative;
@@ -96,11 +130,30 @@ label {
 
 input[type='text'] {
   width: 90%;
+  padding: 0.5rem 0;
 }
 
 input::placeholder {
   font-size: var(--body-font);
   color: var(--clr-grey);
+}
+
+.last-group-checkbox {
+  display: flex;
+}
+
+.last-group-label {
+  color: var(--clr-midnight);
+  font-size: var(--m-font);
+  font-weight: 600;
+  order: 2;
+}
+
+#fulltime {
+  margin: 0 1rem;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
 }
 
 .grid {
@@ -109,7 +162,7 @@ input::placeholder {
   grid-template-rows: repeat(auto, 1fr);
   grid-column-gap: 2rem;
   grid-row-gap: 4rem;
-  max-width: 1110px;
+  max-width: var(--bar-width);
   margin: auto;
 }
 
@@ -163,15 +216,22 @@ input::placeholder {
   font-size: var(--body-font);
 }
 
-button {
+button,
+.submit-btn {
   display: block;
   padding: 0.5rem 1rem;
   color: var(--clr-white);
   font-size: var(--body-font);
   background-color: var(--clr-violet);
   border-radius: 5px;
-  margin: 2rem auto 0;
+  margin: 2rem auto;
+  transition: 0.4s;
   cursor: pointer;
+}
+
+button:hover,
+.submit-btn:hover {
+  opacity: 0.7;
 }
 
 @media screen and (max-width: 1024px) {

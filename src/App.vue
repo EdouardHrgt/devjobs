@@ -33,6 +33,9 @@
 
   /* font family */
   --font: 'Kumbh Sans', sans-serif;
+
+  /* Miscs */
+  --bar-width: 1110px;
 }
 * {
   margin: 0;
@@ -52,5 +55,12 @@ body {
   max-width: 1440px;
   margin: auto;
   min-height: 100vh;
+}
+
+.dark-theme {
+  --clr-dark-blue: hsl(219, 29%, 14%);
+  --clr-midnight: hsl(0, 0%, 100%);
+  --clr-white: hsl(219, 29%, 14%);
+  --clr-light-grey: hsl(220, 29%, 10%);
 }
 </style>
