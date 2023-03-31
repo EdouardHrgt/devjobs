@@ -40,8 +40,9 @@
           @click="toJob(job.company, job.id)"
         >
           <div class="logo" :style="{ background: job.logoBackground }">
-            <img src="../assets/logos/blogr.svg" :alt="job.position" />
+            <img :src="require('../assets/logos/'+job.logo)" :alt="job.position" />
           </div>
+
           <div class="jobs-text">
             <p class="time"><span>5h ago . </span>{{ job.contract }}</p>
             <h2>{{ job.position }}</h2>
