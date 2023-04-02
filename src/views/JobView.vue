@@ -9,7 +9,7 @@
         <h2>{{ job.company }}</h2>
         <p>{{ job.company }}.com</p>
       </div>
-      <button>Company Site</button>
+      <button class="company-link">Company Site</button>
     </section>
 
     <main>
@@ -137,9 +137,6 @@ button {
   transition: 0.3s;
 }
 
-button:hover {
-  opacity: 0.7;
-}
 .banner button {
   color: var(--clr-violet);
   background-color: var(--clr-light-grey);
@@ -271,5 +268,75 @@ footer {
   font-weight: 500;
   font-size: var(--body-font);
   margin: 0.5rem 0 0 0;
+}
+
+.apply-now:hover {
+  background-color: var(--clr-light-violet);
+}
+
+.company-link:hover {
+  background-color: var(--clr-light-violet);
+  color: var(--clr-white);
+}
+
+@media screen and (max-width: 1110px) {
+  main,
+  .footer-content,
+  .banner {
+    max-width: 90%;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .banner {
+    flex-direction: column;
+    overflow: unset;
+    padding-bottom: 2rem;
+  }
+
+  .banner-img {
+    width: 55px;
+    height: 55px;
+    border-radius: 15px;
+    position: relative;
+    top: -27.5px;
+  }
+
+  .banner-img img {
+    width: auto;
+  }
+
+  .banner-txt {
+    margin: 0;
+  }
+
+  .banner-txt p {
+    margin-bottom: 2rem;
+  }
+
+  .banner button {
+    margin: auto;
+  }
+
+  .job-header {
+    flex-direction: column;
+    align-items: baseline;
+  }
+
+  .job-title {
+    margin-bottom: 2.5rem;
+  }
+
+  .job-header button {
+    width: 100%;
+  }
+
+  .footer-text {
+    display: none;
+  }
+
+  .footer-content button {
+    width: 100%;
+  }
 }
 </style>

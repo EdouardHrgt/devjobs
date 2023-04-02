@@ -256,7 +256,7 @@ button:hover,
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 650px) {
   .grid {
     grid-template-columns: repeat(1, 1fr);
     grid-row-gap: 3rem;

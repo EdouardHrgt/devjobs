@@ -90,7 +90,6 @@ h1 {
 
 @media screen and (max-width: 375px) {
   header {
-    border-radius: 0;
     background-image: url('../assets/mobile/bg-pattern-header.svg');
     padding: 2.5rem 1rem;
     background-repeat: no-repeat;
