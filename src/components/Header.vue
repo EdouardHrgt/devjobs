@@ -2,13 +2,6 @@
   <div class="header">
     <header>
       <h1 @click="toHome">devjobs</h1>
-      <div class="switcher" @click="switchTheme()">
-        <img src="../assets/desktop/icon-sun.svg" alt="light theme" />
-        <div class="switch">
-          <div class="switch-ball" :class="{ active: darkTheme }"></div>
-        </div>
-        <img src="../assets/desktop/icon-moon.svg" alt="dark theme" />
-      </div>
     </header>
   </div>
 </template>
@@ -16,18 +9,7 @@
 <script>
 export default {
   name: 'HeaderBar',
-  data() {
-    return {
-      theme: null,
-      darkTheme: false, // Activate css ball moving
-    };
-  },
   methods: {
-    switchTheme() {
-      this.theme = !this.theme;
-      this.theme ? (this.darkTheme = true) : (this.darkTheme = false);
-      this.$store.state.theme = this.theme
-    },
     toHome() {
       this.$router.push(`/`);
     },
@@ -44,43 +26,14 @@ header {
   justify-content: space-between;
   align-items: baseline;
   height: 162px;
+  max-width: 1440px;
+  margin: auto;
 }
 h1 {
-  color: var(--clr-white);
+  color: hsl(0, 0%, 100%);
   font-size: var(--xl-font);
   cursor: pointer;
-}
-
-.switcher {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-}
-
-.switch {
-  background-color: var(--clr-white);
-  width: 48px;
-  height: 24px;
-  border-radius: 20px;
-  position: relative;
-  margin: 0 1rem;
-}
-
-.switch-ball {
-  width: 14px;
-  height: 14px;
-  background-color: var(--clr-violet);
-  border-radius: 14px;
-  position: absolute;
-  top: 50%;
-  left: 5px;
-  transform: translateY(-50%);
-  transition: 0.3s;
-}
-
-.active {
-  left: calc(48px - 19px);
+  z-index: 100;
 }
 
 @media screen and (max-width: 1024px) {

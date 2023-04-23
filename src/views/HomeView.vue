@@ -74,7 +74,7 @@
           </div>
         </router-link>
       </section>
-      <button>Load More</button>
+      <button @click="doubleJobList(list)">Load More</button>
     </main>
   </div>
 </template>
@@ -110,6 +110,11 @@ export default {
     window.removeEventListener('resize', this.debounce);
   },
   methods: {
+    doubleJobList() {
+      const arr1 = this.$store.state.jobsList;
+      const arr2 = this.$store.state.jobsList;
+      this.$store.state.jobsList = arr1.concat(arr2);
+    },
     debounce() {
       if (this.timeout) clearTimeout(this.timeout);
       this.timeout = setTimeout(() => {
@@ -133,6 +138,13 @@ export default {
 </script>
 
 <style scoped>
+main {
+  padding-bottom: 1rem;
+}
+.home {
+  max-width: 1440px;
+  margin: auto;
+}
 .global-filter {
   position: fixed;
   inset: 0;
@@ -176,6 +188,11 @@ input[type='text'] {
   width: 90%;
   padding: 0.5rem 0;
   text-overflow: ellipsis;
+  background-color: var(--clr-white);
+}
+
+input[type='text']:focus {
+  outline: 1px solid var(--clr-dark-grey);
 }
 
 input::placeholder {

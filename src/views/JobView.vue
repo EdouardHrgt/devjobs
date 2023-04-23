@@ -85,6 +85,11 @@ export default {
 </script>
 
 <style scoped>
+.job {
+  max-width: 1440px;
+  margin: auto;
+}
+
 .banner {
   background-color: var(--clr-white);
   display: flex;
