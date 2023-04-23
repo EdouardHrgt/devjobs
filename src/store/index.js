@@ -6,6 +6,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     jobsList: DataList,
+    theme: false,
   },
   getters: {
     fetchOneJob(state, id){

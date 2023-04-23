@@ -4,6 +4,16 @@
   </div>
 </template>
 
+<script>
+export default {
+  computed: {
+    test() {
+      return this.$store.state.theme;
+    },
+  },
+};
+</script>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
 :root {
@@ -37,6 +47,7 @@
   /* Miscs */
   --bar-width: 1110px;
 }
+
 * {
   margin: 0;
   padding: 0;

@@ -18,7 +18,7 @@ export default {
   name: 'HeaderBar',
   data() {
     return {
-      theme: false,
+      theme: null,
       darkTheme: false, // Activate css ball moving
     };
   },
@@ -26,6 +26,7 @@ export default {
     switchTheme() {
       this.theme = !this.theme;
       this.theme ? (this.darkTheme = true) : (this.darkTheme = false);
+      this.$store.state.theme = this.theme
     },
     toHome() {
       this.$router.push(`/`);

@@ -1,11 +1,12 @@
 <template>
   <div class="home">
+    <div class="global-filter" v-if="modal" @click="modal = !modal"></div>
     <HeaderBar />
     <!-- Search bar -->
     <form class="searchbar">
-      <div class="form-group">
+      <div class="form-group mobile-input">
         <label for="filter">
-          <img src="../assets/desktop/icon-search.svg" alt="search icon" />
+          <img src="../assets/desktop/icon-search.svg" alt="search icon" class="search-icon" />
         </label>
         <input
           type="text"
@@ -14,13 +15,36 @@
           placeholder="Filter by title, companies, expertise..."
         />
       </div>
-      <div class="form-group group-location">
+
+      <div class="form-group group-location group-location-pc">
         <label for="location">
           <img src="../assets/desktop/icon-location.svg" alt="location icon" />
         </label>
         <input type="text" name="location" id="location" placeholder="Filter by location..." />
       </div>
+
       <div class="form-group last-group">
+        <div class="last-group-checkbox last-group-checkbox-pc">
+          <label for="fulltime" class="last-group-label">{{ texts.label }}</label>
+          <input type="checkbox" name="fulltime" id="fulltime" />
+        </div>
+
+        <input type="submit" value="Search" class="submit-btn submit-pc" />
+        <div class="modal-mobile" @click="modal = !modal">
+          <img src="../assets/mobile/icon-filter.svg" alt="open the modal" />
+        </div>
+        <input type="submit" value="" class="submit-btn-mobile" />
+      </div>
+
+      <!-- Mobile form modal -->
+      <div class="modal-view" v-if="modal">
+        <div class="form-group group-location">
+          <label for="location">
+            <img src="../assets/desktop/icon-location.svg" alt="location icon" />
+          </label>
+          <input type="text" name="location" id="location" placeholder="Filter by location..." />
+        </div>
+
         <div class="last-group-checkbox">
           <label for="fulltime" class="last-group-label">{{ texts.label }}</label>
           <input type="checkbox" name="fulltime" id="fulltime" />
@@ -32,15 +56,14 @@
     <!-- Main section -->
     <main>
       <section class="grid">
-        <a
-          href="#"
+        <router-link
           class="jobs"
           v-for="job in myJobs"
           :key="job.id"
-          @click="toJob(job.company, job.id)"
+          :to="{ path: 'job/' + job.company + '/' + job.id }"
         >
           <div class="logo" :style="{ background: job.logoBackground }">
-            <img :src="require('../assets/logos/'+job.logo)" :alt="job.position" />
+            <img :src="require('../assets/logos/' + job.logo)" :alt="job.position" />
           </div>
 
           <div class="jobs-text">
@@ -49,7 +72,7 @@
             <p class="company">{{ job.company }}</p>
             <p class="location">{{ job.location }}</p>
           </div>
-        </a>
+        </router-link>
       </section>
       <button>Load More</button>
     </main>
@@ -72,6 +95,7 @@ export default {
         SmallLabel: 'FullTime',
       },
       timeout: null,
+      modal: false,
     };
   },
   computed: {
@@ -109,6 +133,14 @@ export default {
 </script>
 
 <style scoped>
+.global-filter {
+  position: fixed;
+  inset: 0;
+  background-color: black;
+  opacity: 0.5;
+  z-index: 9;
+  cursor: pointer;
+}
 .searchbar {
   max-width: var(--bar-width);
   margin: auto;
@@ -143,6 +175,7 @@ label {
 input[type='text'] {
   width: 90%;
   padding: 0.5rem 0;
+  text-overflow: ellipsis;
 }
 
 input::placeholder {
@@ -159,6 +192,12 @@ input::placeholder {
   font-size: var(--m-font);
   font-weight: 600;
   order: 2;
+}
+
+.submit-btn-mobile,
+.modal-mobile,
+.modal-view {
+  display: none;
 }
 
 #fulltime {
@@ -186,8 +225,12 @@ input::placeholder {
   background-color: var(--clr-white);
 }
 
-.jobs:hover .jobs-text {
-  opacity: 0.7;
+.jobs:hover {
+  background-color: var(--clr-violet);
+}
+
+.jobs:hover .location {
+  color: var(--clr-white);
 }
 
 .jobs .logo {
@@ -257,6 +300,71 @@ button:hover,
 }
 
 @media screen and (max-width: 650px) {
+  .form-group {
+    flex: 0;
+  }
+  .mobile-input {
+    min-width: 155px;
+    flex-grow: 1;
+  }
+  .search-icon {
+    display: none;
+  }
+  .last-group {
+    justify-content: end;
+  }
+  .modal-mobile {
+    display: block;
+    margin: 0 1rem;
+    cursor: pointer;
+  }
+
+  .group-location-pc,
+  .last-group-checkbox-pc {
+    display: none;
+  }
+
+  .submit-pc {
+    display: none;
+  }
+  .submit-btn-mobile {
+    background-color: var(--clr-violet);
+    background-image: url('../assets/mobile/icon-search.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    display: block;
+    width: 48px;
+    height: 48px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .submit-btn-mobile:hover {
+    background-color: var(--clr-light-violet);
+  }
+  .modal-view {
+    display: block;
+    border-radius: 7px;
+    background-color: var(--clr-white);
+    position: fixed;
+    z-index: 10;
+    top: 50%;
+    transform: translate(0, -50%);
+    left: 5%;
+    right: 5%;
+    overflow: hidden;
+  }
+  .modal-view .group-location {
+    border-bottom: 1px solid var(--clr-dark-grey);
+    padding: 2rem 1rem;
+  }
+  .modal-view .last-group-checkbox {
+    padding: 2rem 1rem;
+  }
+  .modal-view .submit-btn {
+    width: calc(100% - 2rem);
+    padding: 1rem 0;
+  }
   .grid {
     grid-template-columns: repeat(1, 1fr);
     grid-row-gap: 3rem;

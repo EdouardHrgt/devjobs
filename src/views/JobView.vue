@@ -78,9 +78,9 @@ export default {
     };
   },
   created() {
+    console.log(this.$route.params.id);
     this.job = this.$store.state.jobsList.find((x) => x.id == this.id);
   },
-  methods: {},
 };
 </script>
 
