@@ -12,7 +12,8 @@
           type="text"
           name="filter"
           id="filter"
-          placeholder="Filter by title, companies, expertise..."
+          placeholder="Filter by company"
+          v-model="filters.company"
         />
       </div>
 
@@ -20,13 +21,25 @@
         <label for="location">
           <img src="../assets/desktop/icon-location.svg" alt="location icon" />
         </label>
-        <input type="text" name="location" id="location" placeholder="Filter by location..." />
+        <input
+          type="text"
+          name="location"
+          id="location"
+          placeholder="Filter by location..."
+          v-model="filters.location"
+        />
       </div>
 
       <div class="form-group last-group">
         <div class="last-group-checkbox last-group-checkbox-pc">
           <label for="fulltime" class="last-group-label">{{ texts.label }}</label>
-          <input type="checkbox" name="fulltime" id="fulltime" />
+          <input
+            class="check"
+            type="checkbox"
+            name="fulltime"
+            id="fulltime"
+            v-model="filters.fulltime"
+          />
         </div>
 
         <input type="submit" value="Search" class="submit-btn submit-pc" />
@@ -42,15 +55,21 @@
           <label for="location">
             <img src="../assets/desktop/icon-location.svg" alt="location icon" />
           </label>
-          <input type="text" name="location" id="location" placeholder="Filter by location..." />
+          <input
+            type="text"
+            name="location"
+            id="location"
+            placeholder="Filter by location..."
+            v-model="filters.location"
+          />
         </div>
 
         <div class="last-group-checkbox">
           <label for="fulltime" class="last-group-label">{{ texts.label }}</label>
-          <input type="checkbox" name="fulltime" id="fulltime" />
+          <input type="checkbox" name="fulltime" id="fulltime" v-model="filters.fulltime" />
         </div>
 
-        <input type="submit" value="Search" class="submit-btn" />
+        <p class="submit-btn" @click="modal = !modal">Search</p>
       </div>
     </form>
     <!-- Main section -->
@@ -58,7 +77,7 @@
       <section class="grid">
         <router-link
           class="jobs"
-          v-for="job in myJobs"
+          v-for="job in filterBy"
           :key="job.id"
           :to="{ path: 'job/' + job.company + '/' + job.id }"
         >
@@ -81,7 +100,6 @@
 
 <script>
 import HeaderBar from '@/components/Header.vue';
-//import DataList from '/data.json';
 export default {
   name: 'HomeView',
   components: {
@@ -96,11 +114,25 @@ export default {
       },
       timeout: null,
       modal: false,
+      filters: {
+        location: null,
+        company: null,
+        fulltime: null,
+      },
     };
   },
   computed: {
-    myJobs() {
-      return this.$store.state.jobsList;
+    filterBy() {
+      const list = this.$store.state.jobsList;
+      if (this.filters.location) {
+        return list.filter((job) => job.location == this.filters.location);
+      } else if (this.filters.company) {
+        return list.filter((job) => job.company == this.filters.company);
+      } else if (this.filters.fulltime) {
+        return list.filter((job) => job.contract == 'Full Time');
+      } else {
+        return list;
+      }
     },
   },
   created() {
@@ -111,9 +143,14 @@ export default {
   },
   methods: {
     doubleJobList() {
-      const arr1 = this.$store.state.jobsList;
-      const arr2 = this.$store.state.jobsList;
-      this.$store.state.jobsList = arr1.concat(arr2);
+      const storedList = this.$store.state.jobsList;
+      if (storedList.length >= 50) {
+        return;
+      } else {
+        const arr1 = storedList;
+        const arr2 = storedList;
+        this.$store.state.jobsList = arr1.concat(arr2);
+      }
     },
     debounce() {
       if (this.timeout) clearTimeout(this.timeout);
@@ -138,6 +175,11 @@ export default {
 </script>
 
 <style scoped>
+.filteredJob {
+  background-color: lightgreen;
+  margin: 0 auto 3rem;
+  max-width: 1000px;
+}
 main {
   padding-bottom: 1rem;
 }
@@ -186,9 +228,10 @@ label {
 
 input[type='text'] {
   width: 90%;
-  padding: 0.5rem 0;
+  padding: 0.5rem 0 0.5rem 0.5rem;
   text-overflow: ellipsis;
   background-color: var(--clr-white);
+  color: var(--clr-midnight);
 }
 
 input[type='text']:focus {
@@ -299,6 +342,7 @@ button,
   margin: 2rem auto;
   transition: 0.4s;
   cursor: pointer;
+  text-align: center;
 }
 
 button:hover,
